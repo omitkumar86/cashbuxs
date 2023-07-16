@@ -1,6 +1,8 @@
 import 'package:cashbuxs/utils/app_constants.dart';
+import 'package:cashbuxs/view/screen/accept/accept_screen.dart';
 import 'package:cashbuxs/view/screen/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'di_container.dart' as di;
@@ -22,17 +24,33 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: AppConstants.appName,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      initialRoute: SplashScreen.routeName,
-      getPages: [
-        GetPage(name: SplashScreen.routeName, page: () => SplashScreen()),
-      ],
-    );
+    return ScreenUtilInit(
+        designSize: const Size(360, 800),
+        minTextAdapt: true,
+        splitScreenMode: true,
+        builder: (context, child) {
+          return GetMaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: AppConstants.appName,
+            theme: ThemeData(
+              colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+              useMaterial3: true,
+            ),
+            initialRoute: SplashScreen.routeName,
+            getPages: [
+              GetPage(
+                name: SplashScreen.routeName,
+                page: () => SplashScreen(),
+                transition: Transition.fadeIn,
+              ),
+              GetPage(
+                name: AcceptScreen.routeName,
+                page: () => AcceptScreen(),
+                transition: Transition.leftToRight,
+                transitionDuration: Duration(milliseconds: 500),
+              ),
+            ],
+          );
+        });
   }
 }
